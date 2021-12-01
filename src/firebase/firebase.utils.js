@@ -15,7 +15,7 @@ const firebaseConfig = {
 
   const app = initializeApp(firebaseConfig);
 
-  const db = getFirestore(app);  // mozda ne treba app
+  const db = getFirestore(app);
   const auth = getAuth();
 
   const provider = new GoogleAuthProvider();
@@ -25,4 +25,5 @@ const firebaseConfig = {
 
   const signInWithGoogle = () => signInWithPopup(auth, provider);
 
+  
   export { signInWithGoogle, app, db, auth, provider };
