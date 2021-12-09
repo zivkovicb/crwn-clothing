@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, addDoc, collection, collectionGroup} from 'firebase/firestore';
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 
 
@@ -13,10 +13,37 @@ const firebaseConfig = {
     measurementId: "G-46M3ETJYK3"
   };
 
+  //Initializing firebase config 
   const app = initializeApp(firebaseConfig);
 
-  const db = getFirestore(app);
-  const auth = getAuth();
+    //Initializing firestore database
+    const db = getFirestore();
+    const auth = getAuth();
+
+    //user profile
+    const createUserProfileDocument = async (userAuth, additionalData) => {
+        if (!userAuth) return;
+        
+        const usersCollection = collection(db, 'users')
+        const snapShot = await collectionGroup(db, "users")
+
+        if(!snapShot.exists) {
+          const { displayName, email } = userAuth;
+          const createdAt = new Date();
+          const userData = {
+            displayName: displayName, 
+            email: email, 
+            createdAt: createdAt
+          }
+          try {
+            await addDoc(usersCollection, userData);
+          } catch (error) {
+            console.log('error creating user', error.message);
+          }
+        }
+        
+        return usersCollection;
+    };
 
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({
@@ -26,4 +53,4 @@ const firebaseConfig = {
   const signInWithGoogle = () => signInWithPopup(auth, provider);
 
   
-  export { signInWithGoogle, app, db, auth, provider };
+  export { signInWithGoogle, app, db, auth, provider, createUserProfileDocument };
