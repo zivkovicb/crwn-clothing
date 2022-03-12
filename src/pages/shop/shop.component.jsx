@@ -11,7 +11,8 @@ import WithSpinner from '../../components/with-spinner/with-spinner.component';
 
 import { 
     collection,
-    onSnapshot 
+    onSnapshot,
+    getDocs
 } from 'firebase/firestore';
 
 import { 
@@ -34,7 +35,7 @@ class ShopPage extends React.Component {
         const { updateCollections } = this.props;
         const collectionRef = collection(db, 'collections');
 
-        onSnapshot(collectionRef, (snapshot) => {
+        getDocs(collectionRef).then(snapshot => {
             const collectionMap = convertCollectionsSnapshotToMap(snapshot);
             updateCollections(collectionMap);
             this.setState({loading: false});
