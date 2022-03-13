@@ -4,7 +4,7 @@ const INITIAL_STATE = {
           title: 'hats',
           imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
           id: 1,
-          linkUrl: 'shop/hat'  // Iz nekog razloga tu mora biti jednina /hat
+          linkUrl: 'shop/hats'  // Iz nekog razloga tu mora biti jednina /hat
         },
         {
           title: 'jackets',
