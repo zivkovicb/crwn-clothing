@@ -90,15 +90,24 @@ export const convertCollectionsSnapshotToMap = (collections) => {
   return transformedCollection.reduce((accumulator, collection) => {
     accumulator[collection.title.toLowerCase()] = collection;
     return accumulator;
-  }, {}) 
-}
+  }, {});
+};
 
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject)
+  });
+};
+
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
     prompt: 'select_account'
 })
 
-const signInWithGoogle = () => signInWithPopup(auth, provider);
+const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
 
 
-export { signInWithGoogle, app, db, auth, provider, createUserProfileDocument };
+export { signInWithGoogle, app, db, auth, createUserProfileDocument };
