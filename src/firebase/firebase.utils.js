@@ -7,7 +7,7 @@ import {
   collection,
   getDocs,
   writeBatch,
-  addDoc //ocigledno ne treba :D 
+  addDoc //ocigledno ne treba 
 } from 'firebase/firestore';
 import { 
   GoogleAuthProvider, 
