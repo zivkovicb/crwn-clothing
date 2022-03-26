@@ -6,7 +6,8 @@ import {
   getDoc,
   collection,
   getDocs,
-  writeBatch
+  writeBatch,
+  addDoc //ocigledno ne treba :D 
 } from 'firebase/firestore';
 import { 
   GoogleAuthProvider, 
@@ -25,14 +26,14 @@ const firebaseConfig = {
   measurementId: "G-46M3ETJYK3"
 };
 
-//Initializing firebase config 
+//INITIALIZINF FIREBASE CONFIG 
 const app = initializeApp(firebaseConfig);
 
-  //Initializing firestore database
+  //INITIALISING FIREBASE DATABASE
   const db = getFirestore();
   const auth = getAuth();
 
-  //user profile
+  //USER PROFILE
   const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth) return;
 
@@ -43,7 +44,7 @@ const app = initializeApp(firebaseConfig);
     const collectionSnapshot = await getDocs(collectionRef);
     console.log({ collection: collectionSnapshot.docs.map(doc => doc.data()) });
 
-    if(!snapShot.exists) {
+    if(!snapShot) {
       const { displayName, email } = userAuth;
       const createdAt = new Date();
 
@@ -64,7 +65,6 @@ const app = initializeApp(firebaseConfig);
 
 export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
   const collectionRef = collection(db, collectionKey);
-  console.log(collectionRef);
 
   const batch = writeBatch(db);
   objectsToAdd.forEach(obj => {
@@ -108,6 +108,5 @@ googleProvider.setCustomParameters({
 })
 
 const signInWithGoogle = () => signInWithPopup(auth, googleProvider);
-
 
 export { signInWithGoogle, app, db, auth, createUserProfileDocument };
